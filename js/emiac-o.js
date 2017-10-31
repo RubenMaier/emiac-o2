@@ -58,6 +58,7 @@ var sumaXCuadrado,
     bRecta,
     ysRayaRecta,
     diferenciasCuadradasRecta,
+    sumaYRayaRecta,
     errorCuadraticoRecta;
 
 var sumaXCuarta,
@@ -68,6 +69,7 @@ var sumaXCuarta,
     cParabola,
     ysRayaParabola,
     diferenciasCuadradasParabola,
+    sumaYRayaParabola,
     errorCuadraticoParabola;
     
 var xPorLnYs,
@@ -79,6 +81,7 @@ var xPorLnYs,
     bExponencial,
     ysRayaExponencial,
     diferenciasCuadradasExponencial,
+    sumaYRayaExponencial,
     errorCuadraticoExponencial;
 
 var lnXCuadrados,
@@ -92,6 +95,7 @@ var lnXCuadrados,
     bPotencial,
     ysRayaPotencial,
     diferenciasCuadradasPotencial,
+    sumaYRayaPotencial,
     errorCuadraticoPotencial;
 
 var XPorUnoDivididoYs,
@@ -104,6 +108,7 @@ var XPorUnoDivididoYs,
     bHiperbola,
     ysRayaHiperbolas,
     diferenciasCuadradasHiperbola,
+    sumaYRayaHiperbola,
     errorCuadraticoHiperbola;
 
 var precision = function() { return inputPrecision.value || 0 }
@@ -131,16 +136,19 @@ var unoDivididoY = function(punto) { return redondear(1/y(punto)); }
 var lnXCuadrado = function(punto) { return redondear(Math.pow(lnX(punto), 2)); }
 var XPorUnoDivididoY = function(punto) { return redondear(unoDivididoY(punto) * x(punto)); }
 
-var yRayaRecta = function(x) { return redondear((aRecta * x) + bRecta); }
-var diferenciaCuadradaRecta = function(punto) { return redondear(Math.pow(yRayaRecta(x(punto)) - y(punto), 2)); }
-var yRayaParabola = function(x) { return redondear(bParabola * Math.exp(aParabola * x)); }
-var diferenciaCuadradaParabola = function(punto) { return redondear(Math.pow(yRayaParabola(x(punto)) - y(punto), 2)); }
-var yRayaExponencial = function(x) { return redondear(bExponencial * Math.exp(aExponencial * x)); }
-var diferenciaCuadradaExponencial = function(punto) { return redondear(Math.pow(yRayaExponencial(x(punto)) - y(punto), 2)); }
-var yRayaPotencial = function(x) { return redondear(bPotencial * Math.pow(x, aPotencial)); }
-var diferenciaCuadradaPotencial = function(punto) { return redondear(Math.pow(yRayaPotencial(x(punto)) - y(punto), 2)); }
-var yRayaHiperbola = function(x) { return redondear(aHiperbola/ (bHiperbola + x)); }
-var diferenciaCuadradaHiperbola = function(punto) { return redondear(Math.pow(yRayaHiperbola(x(punto)) - y(punto), 2)); }
+var yRayaRecta = function(x) { return redondear( (aRecta*x)+bRecta ); }
+var yRayaParabola = function(x) { return redondear( (aParabola*Math.pow(x,2))+(bParabola*x)+cParabola ); }
+var yRayaExponencial = function(x) { return redondear( bExponencial*Math.exp(aExponencial*x) ); }
+var yRayaPotencial = function(x) { return redondear( bPotencial*Math.pow(x,aPotencial) ); }
+var yRayaHiperbola = function(x) { return redondear( aHiperbola/(bHiperbola+x) ); }
+
+var diferenciaCuadrada = function(punto, yRaya) { return redondear( Math.pow(yRaya(x(punto)) - y(punto), 2) ); }
+
+var diferenciaCuadradaRecta = function(punto) { return diferenciaCuadrada(punto, yRayaRecta)}
+var diferenciaCuadradaParabola = function(punto) { return diferenciaCuadrada(punto, yRayaParabola)}
+var diferenciaCuadradaExponencial = function(punto) { return diferenciaCuadrada(punto, yRayaExponencial)}
+var diferenciaCuadradaPotencial = function(punto) { return diferenciaCuadrada(punto, yRayaPotencial)}
+var diferenciaCuadradaHiperbola = function(punto) { return diferenciaCuadrada(punto, yRayaHiperbola)}
 
 // Determinante de una matriz 3x3
 var determinante = function(a) {
@@ -214,8 +222,8 @@ var nuevaFilaTablaRecta = function(punto) {
   fila.appendChild(nuevaCelda(y(punto)));
   fila.appendChild(nuevaCelda(xCuadrado(punto)));
   fila.appendChild(nuevaCelda(xPorY(punto)));
-  fila.appendChild(nuevaCelda(yRayaRecta(punto)));
-  fila.appendChild(nuevaCelda(diferenciaCuadradaRecta(punto)));
+  fila.appendChild(nuevaCelda(yRayaRecta(x(punto))));
+  fila.appendChild(nuevaCelda(diferenciaCuadrada(punto, yRayaRecta)));
   return fila;
 }
 
@@ -234,8 +242,8 @@ var nuevaFilaTablaParabola = function(punto) {
   fila.appendChild(nuevaCelda(xCuarta(punto)));
   fila.appendChild(nuevaCelda(xPorY(punto)));
   fila.appendChild(nuevaCelda(xCuadradoPorY(punto)));
-  fila.appendChild(nuevaCelda(yRayaParabola(punto)));
-  fila.appendChild(nuevaCelda(diferenciaCuadradaParabola(punto)));
+  fila.appendChild(nuevaCelda(yRayaParabola(x(punto))));
+  fila.appendChild(nuevaCelda(diferenciaCuadrada(punto, yRayaParabola)));
   return fila;
 }
 
@@ -252,8 +260,8 @@ var nuevaFilaTablaExponencial = function(punto) {
   fila.appendChild(nuevaCelda(xCuadrado(punto)));
   fila.appendChild(nuevaCelda(lnY(punto)));
   fila.appendChild(nuevaCelda(xPorLnY(punto)));
-  fila.appendChild(nuevaCelda(yRayaExponencial(punto)));
-  fila.appendChild(nuevaCelda(diferenciaCuadradaExponencial(punto)));
+  fila.appendChild(nuevaCelda(yRayaExponencial(x(punto))));
+  fila.appendChild(nuevaCelda(diferenciaCuadrada(punto, yRayaExponencial)));
   return fila;
 }
 
@@ -271,8 +279,8 @@ var nuevaFilaTablaPotencial = function(punto) {
   fila.appendChild(nuevaCelda(lnXCuadrado(punto)));
   fila.appendChild(nuevaCelda(lnY(punto)));
   fila.appendChild(nuevaCelda(lnXPorLnY(punto)));
-  fila.appendChild(nuevaCelda(yRayaPotencial(punto)));
-  fila.appendChild(nuevaCelda(diferenciaCuadradaPotencial(punto)));
+  fila.appendChild(nuevaCelda(yRayaPotencial(x(punto))));
+  fila.appendChild(nuevaCelda(diferenciaCuadrada(punto, yRayaPotencial)));
   return fila;
 }
 
@@ -289,8 +297,8 @@ var nuevaFilaTablaHiperbola = function(punto) {
   fila.appendChild(nuevaCelda(xCuadrado(punto)));
   fila.appendChild(nuevaCelda(unoDivididoY(punto)));
   fila.appendChild(nuevaCelda(XPorUnoDivididoY(punto)));
-  fila.appendChild(nuevaCelda(yRayaHiperbola(punto)));
-  fila.appendChild(nuevaCelda(diferenciaCuadradaHiperbola(punto)));
+  fila.appendChild(nuevaCelda(yRayaHiperbola(x(punto))));
+  fila.appendChild(nuevaCelda(diferenciaCuadrada(punto, yRayaHiperbola)));
   return fila;
 }
 
@@ -416,6 +424,7 @@ var procesarCalculos = function () {
     xCuartas = redondear(_.map(puntos, xElevadoA(4)));
     xCubos = redondear(_.map(puntos, xElevadoA(3)));
     yPorXCuadrados = redondear(_.map(puntos, function(punto) { return redondear(y(punto) * xElevadoA(2)(punto)) }));
+    diferenciasCuadradasParabola = redondear(_.map(puntos, diferenciaCuadradaParabola));
 
     // solo exponenciales y potencial
     xPorLnYs = redondear(_.map(puntos, xPorLnY));
@@ -446,8 +455,11 @@ var procesarCalculos = function () {
     sumaY = redondear(_.sum(losY));
     sumaXPorY = redondear(_.sum(xPorYs));
     sumaXCuadrado = redondear(_.sum(xCuadrados));
+
     bRecta = redondear((sumaXPorY - (sumaXCuadrado * sumaY / sumaX)) / (- (sumaXCuadrado * n() / sumaX) + sumaX));
     aRecta = redondear((sumaY - (n() * bRecta)) / sumaX);
+
+    sumaYRayaRecta = redondear(_.sum(ysRayaRecta));
     errorCuadraticoRecta = redondear(_.sum(diferenciasCuadradasRecta));
 
     escribirFuncion(funcionLineal([aRecta, bRecta]), 'funcionRecta');
@@ -467,14 +479,19 @@ var procesarCalculos = function () {
     sumaXCuarta = _.sum(xCuartas);
     sumaXCubo = _.sum(xCubos);
     sumaYPorXCuadrado = _.sum(yPorXCuadrados);
+
     var coeficientes = [
         [ sumaXCuarta, sumaXCubo, sumaXCuadrado, sumaYPorXCuadrado ],
         [ sumaXCubo, sumaXCuadrado, sumaX, sumaXPorY ],
         [ sumaXCuadrado, sumaX, n(), sumaY ]
     ];
+
     aParabola = redondear(determinante(d1(coeficientes)) / determinante(d(coeficientes)));
     bParabola = redondear(determinante(d2(coeficientes)) / determinante(d(coeficientes)));
     cParabola = redondear(determinante(d3(coeficientes)) / determinante(d(coeficientes)));
+
+    sumaYRayaParabola = redondear(_.sum(ysRayaParabola));
+    errorCuadraticoParabola = redondear(_.sum(diferenciasCuadradasParabola));
 
     escribirFuncion(funcionCuadratica([aParabola, bParabola, cParabola]), 'funcionParabola');
     
@@ -493,10 +510,13 @@ var procesarCalculos = function () {
 
     sumaXPorLnY = redondear(_.sum(xPorLnYs));
     sumaLnY = redondear(_.sum(lnYs));
+
     bMayusculaExponencial = redondear((sumaXPorLnY - (sumaXCuadrado * sumaLnY / sumaX)) / (- (sumaXCuadrado * n() / sumaX) + sumaX));
     aExponencial = redondear((sumaLnY - (n() * bMayusculaExponencial)) / sumaX);
     bExponencial = redondear(Math.exp(bMayusculaExponencial));
-    errorCuadraticoExponencial = _.sum(diferenciasCuadradasExponencial);
+
+    sumaYRayaExponencial = redondear(_.sum(ysRayaExponencial));
+    errorCuadraticoExponencial = redondear(_.sum(diferenciasCuadradasExponencial));
 
     escribirFuncion(funcionExponencial([aExponencial, bExponencial]), 'funcionExponencial');
     
@@ -515,9 +535,12 @@ var procesarCalculos = function () {
     sumaLnXCuadrados = redondear(_.sum(lnXCuadrados));
     sumaLnX = redondear(_.sum(lnXs));
     sumaLnXPorLnY = redondear(_.sum(lnXPorLnYs));
+
     bMayusculaPotencial = redondear((sumaLnXPorLnY - (sumaLnXCuadrados * sumaLnY / sumaLnX)) / (- (sumaLnXCuadrados * n() / sumaLnX) + sumaLnX));
     aPotencial = redondear((sumaLnY - (n() * bMayusculaPotencial)) / sumaLnX);
     bPotencial = redondear(Math.exp(bMayusculaPotencial));
+
+    sumaYRayaPotencial = redondear(_.sum(ysRayaPotencial));
     errorCuadraticoPotencial = redondear(_.sum(diferenciasCuadradasPotencial));
 
     escribirFuncion(funcionPotencial([aPotencial, bPotencial]), 'funcionPotencial');
@@ -536,10 +559,13 @@ var procesarCalculos = function () {
 
     sumaXPorUnoDivididoY = redondear(_.sum(XPorUnoDivididoYs));
     sumaUnoDivididoY = redondear(_.sum(unoDivididoYs));
+
     bMayusculaHiperbola = (sumaXPorUnoDivididoY - (sumaXCuadrado * sumaUnoDivididoY / sumaX)) / (-(sumaXCuadrado * n()) / sumaX + sumaX) ;
     aMayusculaHiperbola = (sumaUnoDivididoY - (n() * bMayusculaHiperbola)) / sumaX;
     aHiperbola = redondear(1/aMayusculaHiperbola);
     bHiperbola = redondear(bMayusculaHiperbola * aHiperbola);
+
+    sumaYRayaHiperbola = redondear(_.sum(ysRayaHiperbolas));
     errorCuadraticoHiperbola = redondear(_.sum(diferenciasCuadradasHiperbola));
 
     escribirFuncion(funcionHiperbola([aHiperbola, bHiperbola]), 'funcionHiperbola');
