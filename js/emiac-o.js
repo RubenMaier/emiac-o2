@@ -401,12 +401,16 @@ var procesarCalculos = function () {
     ////////////
 
     // uso general
-    losX = _.map(puntos, x);
-    losY = _.map(puntos, y);
+    losX = redondear(_.map(puntos, x));
+    losY = redondear(_.map(puntos, y));
 
     // uso de recta, parabola e hiperbola
     xPorYs = redondear(_.map(puntos, xPorY));
     xCuadrados = redondear(_.map(puntos, xElevadoA(2)));
+
+    // solo rectas
+    ysRayaRecta = redondear(_.map(losX, yRayaRecta));
+    diferenciasCuadradasRecta = redondear(_.map(puntos, diferenciaCuadradaRecta));
 
     // solo parabolas
     xCuartas = redondear(_.map(puntos, xElevadoA(4)));
@@ -417,14 +421,22 @@ var procesarCalculos = function () {
     xPorLnYs = redondear(_.map(puntos, xPorLnY));
     lnYs = redondear(_.map(puntos, lnY));
 
+    // solo exponenciales
+    ysRayaExponencial = redondear(_.map(losX, yRayaExponencial));
+    diferenciasCuadradasExponencial = redondear(_.map(puntos, diferenciaCuadradaExponencial));
+
     // solo potencial
     lnXCuadrados = redondear(_.map(puntos, lnXCuadrado));
     lnXs = redondear(_.map(puntos, lnX));
-    lnXPorLnYs = _.map(puntos, lnXPorLnY);
+    lnXPorLnYs = redondear(_.map(puntos, lnXPorLnY));
+    ysRayaPotencial = redondear(_.map(losX, yRayaPotencial));
+    diferenciasCuadradasPotencial = redondear(_.map(puntos, diferenciaCuadradaPotencial));
 
     // solo hiperbola
-    XPorUnoDivididoYs = _.map(puntos, XPorUnoDivididoY);
-    unoDivididoYs = _.map(puntos, unoDivididoY);
+    XPorUnoDivididoYs = redondear(_.map(puntos, XPorUnoDivididoY));
+    unoDivididoYs = redondear(_.map(puntos, unoDivididoY));
+    ysRayaHiperbola = redondear(_.map(losX, yRayaHiperbola));
+    diferenciasCuadradasHiperbola = redondear(_.map(puntos, diferenciaCuadradaHiperbola));
 
     //////////////////////
     // metodo por recta //
@@ -436,8 +448,6 @@ var procesarCalculos = function () {
     sumaXCuadrado = redondear(_.sum(xCuadrados));
     bRecta = redondear((sumaXPorY - (sumaXCuadrado * sumaY / sumaX)) / (- (sumaXCuadrado * n() / sumaX) + sumaX));
     aRecta = redondear((sumaY - (n() * bRecta)) / sumaX);
-    ysRayaRecta = redondear(_.map(losX, yRayaRecta));
-    diferenciasCuadradasRecta = redondear(_.map(puntos, diferenciaCuadradaRecta));
     errorCuadraticoRecta = redondear(_.sum(diferenciasCuadradasRecta));
 
     escribirFuncion(funcionLineal([aRecta, bRecta]), 'funcionRecta');
@@ -465,9 +475,6 @@ var procesarCalculos = function () {
     aParabola = redondear(determinante(d1(coeficientes)) / determinante(d(coeficientes)));
     bParabola = redondear(determinante(d2(coeficientes)) / determinante(d(coeficientes)));
     cParabola = redondear(determinante(d3(coeficientes)) / determinante(d(coeficientes)));
-    /*ysRayaParabola = _.map(losX, yRayaParabola);
-    diferenciasCuadradasParabola = _.map(puntos, diferenciaCuadradaParabola);
-    errorCuadraticoParabola = _.sum(diferenciasCuadradasParabola);*/
 
     escribirFuncion(funcionCuadratica([aParabola, bParabola, cParabola]), 'funcionParabola');
     
@@ -489,8 +496,6 @@ var procesarCalculos = function () {
     bMayusculaExponencial = redondear((sumaXPorLnY - (sumaXCuadrado * sumaLnY / sumaX)) / (- (sumaXCuadrado * n() / sumaX) + sumaX));
     aExponencial = redondear((sumaLnY - (n() * bMayusculaExponencial)) / sumaX);
     bExponencial = redondear(Math.exp(bMayusculaExponencial));
-    ysRayaExponencial = _.map(losX, yRayaExponencial);
-    diferenciasCuadradasExponencial = _.map(puntos, diferenciaCuadradaExponencial);
     errorCuadraticoExponencial = _.sum(diferenciasCuadradasExponencial);
 
     escribirFuncion(funcionExponencial([aExponencial, bExponencial]), 'funcionExponencial');
@@ -513,8 +518,6 @@ var procesarCalculos = function () {
     bMayusculaPotencial = redondear((sumaLnXPorLnY - (sumaLnXCuadrados * sumaLnY / sumaLnX)) / (- (sumaLnXCuadrados * n() / sumaLnX) + sumaLnX));
     aPotencial = redondear((sumaLnY - (n() * bMayusculaPotencial)) / sumaLnX);
     bPotencial = redondear(Math.exp(bMayusculaPotencial));
-    ysRayaPotencial = redondear(_.map(losX, yRayaPotencial));
-    diferenciasCuadradasPotencial = redondear(_.map(puntos, diferenciaCuadradaPotencial));
     errorCuadraticoPotencial = redondear(_.sum(diferenciasCuadradasPotencial));
 
     escribirFuncion(funcionPotencial([aPotencial, bPotencial]), 'funcionPotencial');
@@ -537,8 +540,6 @@ var procesarCalculos = function () {
     aMayusculaHiperbola = (sumaUnoDivididoY - (n() * bMayusculaHiperbola)) / sumaX;
     aHiperbola = redondear(1/aMayusculaHiperbola);
     bHiperbola = redondear(bMayusculaHiperbola * aHiperbola);
-    ysRayaHiperbola = redondear(_.map(losX, yRayaHiperbola));
-    diferenciasCuadradasHiperbola = redondear(_.map(puntos, diferenciaCuadradaHiperbola));
     errorCuadraticoHiperbola = redondear(_.sum(diferenciasCuadradasHiperbola));
 
     escribirFuncion(funcionHiperbola([aHiperbola, bHiperbola]), 'funcionHiperbola');
