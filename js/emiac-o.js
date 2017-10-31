@@ -255,6 +255,23 @@ var nuevaFilaTablaRecta = function(punto) {
   return fila;
 }
 
+var nuevaFilaSumatoriaRecta = function() {
+  var nuevaCelda = function(texto) {
+    var celda = document.createElement('td');
+    celda.textContent = texto;
+    return celda;
+  }
+  var fila = document.createElement('tr');
+  fila.appendChild(nuevaCelda(""));
+  fila.appendChild(nuevaCelda(sumaX));
+  fila.appendChild(nuevaCelda(sumaY));
+  fila.appendChild(nuevaCelda(sumaXCuadrado));
+  fila.appendChild(nuevaCelda(sumaXPorY));
+  fila.appendChild(nuevaCelda(sumaYRayaRecta));
+  fila.appendChild(nuevaCelda(errorCuadraticoRecta));
+  return fila;
+}
+
 var nuevaFilaTablaParabola = function(punto) {
   var nuevaCelda = function(texto) {
     var celda = document.createElement('td');
@@ -275,6 +292,26 @@ var nuevaFilaTablaParabola = function(punto) {
   return fila;
 }
 
+var nuevaFilaSumatoriaParabola = function() {
+  var nuevaCelda = function(texto) {
+    var celda = document.createElement('td');
+    celda.textContent = texto;
+    return celda;
+  }
+  var fila = document.createElement('tr');
+  fila.appendChild(nuevaCelda(""));
+  fila.appendChild(nuevaCelda(sumaX));
+  fila.appendChild(nuevaCelda(sumaY));
+  fila.appendChild(nuevaCelda(sumaXCuadrado));
+  fila.appendChild(nuevaCelda(sumaXCubo));
+  fila.appendChild(nuevaCelda(sumaXCuarta));
+  fila.appendChild(nuevaCelda(sumaXPorY));
+  fila.appendChild(nuevaCelda(sumaYPorXCuadrado));
+  fila.appendChild(nuevaCelda(sumaYRayaParabola));
+  fila.appendChild(nuevaCelda(errorCuadraticoParabola));
+  return fila;
+}
+
 var nuevaFilaTablaExponencial = function(punto) {
   var nuevaCelda = function(texto) {
     var celda = document.createElement('td');
@@ -290,6 +327,24 @@ var nuevaFilaTablaExponencial = function(punto) {
   fila.appendChild(nuevaCelda(xPorLnY(punto)));
   fila.appendChild(nuevaCelda(yRayaExponencial(x(punto))));
   fila.appendChild(nuevaCelda(diferenciaCuadrada(punto, yRayaExponencial)));
+  return fila;
+}
+
+var nuevaFilaSumatoriaExponencial = function() {
+  var nuevaCelda = function(texto) {
+    var celda = document.createElement('td');
+    celda.textContent = texto;
+    return celda;
+  }
+  var fila = document.createElement('tr');
+  fila.appendChild(nuevaCelda(""));
+  fila.appendChild(nuevaCelda(sumaX));
+  fila.appendChild(nuevaCelda(sumaY));
+  fila.appendChild(nuevaCelda(sumaXCuadrado));
+  fila.appendChild(nuevaCelda(sumaLnY));
+  fila.appendChild(nuevaCelda(sumaXPorLnY));
+  fila.appendChild(nuevaCelda(sumaYRayaExponencial));
+  fila.appendChild(nuevaCelda(errorCuadraticoExponencial));
   return fila;
 }
 
@@ -312,6 +367,25 @@ var nuevaFilaTablaPotencial = function(punto) {
   return fila;
 }
 
+var nuevaFilaSumatoriaPotencial = function(unto) {
+  var nuevaCelda = function(texto) {
+    var celda = document.createElement('td');
+    celda.textContent = texto;
+    return celda;
+  }
+  var fila = document.createElement('tr');
+  fila.appendChild(nuevaCelda(""));
+  fila.appendChild(nuevaCelda(sumaX));
+  fila.appendChild(nuevaCelda(sumaY));
+  fila.appendChild(nuevaCelda(sumaLnX));  
+  fila.appendChild(nuevaCelda(sumaLnXCuadrados));
+  fila.appendChild(nuevaCelda(sumaLnY));
+  fila.appendChild(nuevaCelda(sumaLnXPorLnY));
+  fila.appendChild(nuevaCelda(sumaYRayaPotencial));
+  fila.appendChild(nuevaCelda(errorCuadraticoPotencial));
+  return fila;
+}
+
 var nuevaFilaTablaHiperbola = function(punto) { 
   var nuevaCelda = function(texto) {
     var celda = document.createElement('td');
@@ -330,8 +404,34 @@ var nuevaFilaTablaHiperbola = function(punto) {
   return fila;
 }
 
+var nuevaFilaSumatoriaHiperbola = function() { 
+  var nuevaCelda = function(texto) {
+    var celda = document.createElement('td');
+    celda.textContent = texto;
+    return celda;
+  }
+  var fila = document.createElement('tr');
+  fila.appendChild(nuevaCelda(""));
+  fila.appendChild(nuevaCelda(sumaX));
+  fila.appendChild(nuevaCelda(sumaY));
+  fila.appendChild(nuevaCelda(sumaXCuadrado));
+  fila.appendChild(nuevaCelda(sumaUnoDivididoY));
+  fila.appendChild(nuevaCelda(sumaXPorUnoDivididoY));
+  fila.appendChild(nuevaCelda(sumaYRayaHiperbola));
+  fila.appendChild(nuevaCelda(errorCuadraticoHiperbola));
+  return fila;
+}
+
 var graficarPunto = function(punto) {
   board.create('point', [x(punto),y(punto)], {fixed: true});
+}
+
+var agregarSumatoriasEnTablas = function() {
+  ultimaFilaTablaRecta.parentElement.insertBefore(nuevaFilaSumatoriaRecta(), ultimaFilaTablaRecta);
+  ultimaFilaTablaParabola.parentElement.insertBefore(nuevaFilaSumatoriaParabola(), ultimaFilaTablaParabola);
+  ultimaFilaTablaExponencial.parentElement.insertBefore(nuevaFilaSumatoriaExponencial(), ultimaFilaTablaExponencial);
+  ultimaFilaTablaPotencial.parentElement.insertBefore(nuevaFilaSumatoriaPotencial(), ultimaFilaTablaPotencial);
+  ultimaFilaTablaHiperbola.parentElement.insertBefore(nuevaFilaSumatoriaHiperbola(), ultimaFilaTablaHiperbola);
 }
 
 var agregarPuntoTablas = function(punto) {
@@ -379,6 +479,7 @@ var procesarDatos = function() {
     graficarPunto(punto);  
   });
 
+  agregarSumatoriasEnTablas();
   mejorAproximacion();
 }
 
