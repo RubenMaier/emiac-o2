@@ -198,6 +198,33 @@ var d3 = function(a) {
   ]
 }
 
+var mejorAproximacion = function() {
+  var datos = [errorCuadraticoRecta, errorCuadraticoParabola, errorCuadraticoExponencial, errorCuadraticoPotencial, errorCuadraticoHiperbola];
+  var resultado = Math.min.apply(null, datos);
+  var str;
+  switch(resultado)
+  {
+    case errorCuadraticoRecta:
+        str = "Mejor aproximación: Recta";
+        break;
+    case errorCuadraticoParabola:
+        str = "Mejor aproximación: Parábola";
+        break;
+    case errorCuadraticoExponencial:
+        str = "Mejor aproximación: Exponencial";
+        break;
+    case errorCuadraticoPotencial:
+        str = "Mejor aproximación: Potencial";
+        break;
+    case errorCuadraticoHiperbola:
+        str = "Mejor aproximación: Hiperbola";
+        break;
+    default:
+        str = "Mejor aproximación: ninguna";
+  }
+  document.getElementById('resultado').innerHTML = str;
+}
+
 var nuevaFilaTablaDiscreta = function(punto) {
   var nuevaCelda = function(texto) {
     var celda = document.createElement('td');
@@ -322,6 +349,7 @@ var agregarPuntoApretado = function() {
         procesarCalculos(punto);
         agregarPuntoTablas(punto);
         graficarPunto(punto);
+        mejorAproximacion();
         inlinePuntoX.value = '';
         inlinePuntoY.value = '';
     }
