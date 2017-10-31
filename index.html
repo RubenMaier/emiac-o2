@@ -67,12 +67,21 @@
                 <label class="sr-only" for="inlinePuntoX">Punto X</label>
                 <label class="sr-only" for="inlinePuntoY">Punto Y</label>
                 <div class="input-group">
-                  <div class="input-group-addon">X</div>
+                  <div class="input-group-addon" id='cositoX'>X</div>
                   <input type="number" name="x" class="form-control" id="inlinePuntoX">
-                  <div class="input-group-addon">Y</div>
+                  <div class="input-group-addon" id='cositoY'>Y</div>
                   <input type="number" name="y" class="form-control" id="inlinePuntoY">
                   <div class="input-group-btn">
                     <button class="btn btn-primary" type="button" id="agregarPunto">+</button>
+                  </div>
+                  <div class="input-group-btn">
+                    <button class="btn btn-primary" type="button" id="quitarPunto">-</button>
+                  </div>
+                  <div class="input-group-btn">
+                    <button class="btn btn-primary" type="button" id="procesarDatos">Procesar</button>
+                  </div>
+                  <div class="input-group-btn">
+                    <button class="btn btn-primary" type="button" id="reiniciarSistema" style='display:none'>Reiniciar</button>
                   </div>
                 </div>
               </div>

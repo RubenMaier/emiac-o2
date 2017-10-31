@@ -19,7 +19,8 @@ var board,
     graficoHiperbola = null;
 
 var tablaDiscreta, 
-    filaTablaDiscreta;
+    filaTablaDiscreta,
+    contador = 0;
 
 var tablaRecta, 
     filaTablaRecta;
@@ -334,7 +335,6 @@ var graficarPunto = function(punto) {
 }
 
 var agregarPuntoTablas = function(punto) {
-  ultimaFilaTablaDiscreta.parentElement.insertBefore(nuevaFilaTablaDiscreta(punto), ultimaFilaTablaDiscreta);
   ultimaFilaTablaRecta.parentElement.insertBefore(nuevaFilaTablaRecta(punto), ultimaFilaTablaRecta);
   ultimaFilaTablaParabola.parentElement.insertBefore(nuevaFilaTablaParabola(punto), ultimaFilaTablaParabola);
   ultimaFilaTablaExponencial.parentElement.insertBefore(nuevaFilaTablaExponencial(punto), ultimaFilaTablaExponencial);
@@ -346,13 +346,42 @@ var agregarPuntoApretado = function() {
     if(inlinePuntoX.value != '' && inlinePuntoY.value != '' && inputPrecision.value != '') {
         var punto = [parseFloat(inlinePuntoX.value), parseFloat(inlinePuntoY.value)];
         puntos.push(punto);
-        procesarCalculos(punto);
-        agregarPuntoTablas(punto);
-        graficarPunto(punto);
-        mejorAproximacion();
+        contador++;
+        ultimaFilaTablaDiscreta.parentElement.insertBefore(nuevaFilaTablaDiscreta(punto), ultimaFilaTablaDiscreta);
         inlinePuntoX.value = '';
         inlinePuntoY.value = '';
     }
+}
+
+var quitarUltimoPunto = function() {
+  if(contador > 0) {
+    document.getElementById('tablaDiscreta').deleteRow(contador);
+    puntos.pop();
+    contador--;
+  }
+}
+
+var procesarDatos = function() {
+  
+  document.getElementById('cositoX').style.display = 'none';
+  document.getElementById('cositoY').style.display = 'none';
+  document.getElementById('inlinePuntoX').style.display = 'none';
+  document.getElementById('inlinePuntoY').style.display = 'none';
+  document.getElementById('agregarPunto').style.display = 'none';
+  document.getElementById('quitarPunto').style.display = 'none';;
+  document.getElementById('procesarDatos').style.display = 'none';
+  document.getElementById('reiniciarSistema').style.display = '';
+
+  puntos.forEach(function(punto) {
+    agregarPuntoTablas(punto);
+    graficarPunto(punto);  
+  });
+  procesarCalculos();
+  mejorAproximacion();
+}
+
+var reiniciarSistema = function() {
+  location.reload();
 }
 
 var ecuacionLineal = function(componentes) {
@@ -395,7 +424,7 @@ var escribirFuncion = function(markupDeEcuaciones, id) {
   document.getElementById(id).textContent = markupDeEcuaciones;
 }
 
-var graficarModelo = function(ecuacion, curva) {
+var graficarModelo = function(ecuacion, curva, color) {
     if(curva == null) {
         f = board.jc.snippet(ecuacion, true, 'x', true);
         return board.create('functiongraph',[f,
@@ -407,7 +436,7 @@ var graficarModelo = function(ecuacion, curva) {
                 var c = new JXG.Coords(JXG.COORDS_BY_SCREEN,[board.canvasWidth,0],board);
                 return c.usrCoords[1];
             }
-        ], {name:ecuacion, withLabel:true});
+        ], {name:ecuacion, withLabel:true, strokeColor: color});
     } else {
         curva.remove();
         return null;
@@ -613,31 +642,31 @@ var procesarCalculos = function () {
 
 var aproximarLineal = function() {
     var ecuacion = "(" + aRecta + " * x) + " + bRecta;
-    graficoRecta = graficarModelo(ecuacion, graficoRecta);
+    graficoRecta = graficarModelo(ecuacion, graficoRecta, 'brown');
     estadoRecta = mostrarModelo(estadoRecta, 'divTablaRecta');
 }
 
 var aproximarCuadratico = function() {
     var ecuacion = "(" + aParabola + " * x^2) + (" + bParabola + " * x) + " + cParabola;
-    graficoParabola = graficarModelo(ecuacion, graficoParabola);
+    graficoParabola = graficarModelo(ecuacion, graficoParabola, 'green');
     estadoParabola = mostrarModelo(estadoParabola, 'divTablaParabola');
 }
 
 var aproximarExponencial = function() {
     var ecuacion = bExponencial  + " * " + Math.E + "^(" + aExponencial + " * x)";
-    graficoExponencial = graficarModelo(ecuacion, graficoExponencial);
+    graficoExponencial = graficarModelo(ecuacion, graficoExponencial, 'blue');
     estadoExponencial = mostrarModelo(estadoExponencial, 'divTablaExponencial');
 }
 
 var aproximarPotencial = function() {
     var ecuacion = bPotencial  + " * x^" + aPotencial;
-    graficoPotencial = graficarModelo(ecuacion, graficoPotencial);
+    graficoPotencial = graficarModelo(ecuacion, graficoPotencial, 'purple');
     estadoPotencial = mostrarModelo(estadoPotencial, 'divTablaPotencial');
 }
 
 var aproximarHiperbola = function() {
     var ecuacion = aHiperbola + "/" + "(" + bHiperbola +" + x)";
-    graficoHiperbola = graficarModelo(ecuacion, graficoHiperbola);
+    graficoHiperbola = graficarModelo(ecuacion, graficoHiperbola, 'gray');
     estadoHiperbola = mostrarModelo(estadoHiperbola, 'divTablaHiperbola');
 }
 
@@ -650,6 +679,15 @@ window.addEventListener("load", function() {
 
 	var botonAgregarPunto = document.getElementById('agregarPunto');
 	botonAgregarPunto.addEventListener('click', agregarPuntoApretado);
+
+	var botonQuitarPunto = document.getElementById('quitarPunto');
+	botonQuitarPunto.addEventListener('click', quitarUltimoPunto);
+
+	var botonProcesarDatos = document.getElementById('procesarDatos');
+	botonProcesarDatos.addEventListener('click', procesarDatos);
+
+	var botonReiniciarSistema = document.getElementById('reiniciarSistema');
+	botonReiniciarSistema.addEventListener('click', reiniciarSistema);
 
 	tablaDiscreta = document.getElementById('tablaDiscreta');
 	ultimaFilaTablaDiscreta = document.getElementById('filaTablaDiscreta');
