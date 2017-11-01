@@ -467,7 +467,7 @@ var quitarUltimoPunto = function() {
 }
 
 var procesarDatos = function() {
-
+  if(contadorPuntos <= 0) return;
   datosProcesados = true;
   
   document.getElementById('cositoX').style.display = 'none';
