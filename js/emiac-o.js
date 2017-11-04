@@ -514,24 +514,32 @@ var escribirSistemaDeEcuaciones = function(markupDeEcuaciones, id) {
 var funcionLineal = function(componentes) {
   if (componentes[1] > 0) {
     return "`y = " + componentes[0] + "x + " + componentes[1] + "`";
-  } else {
+  }
+  if (componentes[1] < 0) {
     return "`y = " + componentes[0] + "x " + componentes[1] + "`";
+  }
+  if(componentes[1] === 0) {
+    return "`y = " + componentes[0] + "x " + "`";
   }
 }
 
 var funcionCuadratica = function(componentes) {
+  var result;
+  result = "`y = " + componentes[0] + "x^2 + " + componentes[1] + "x + " + componentes[2]  + "`";
   if ((componentes[1] > 0) && (componentes[2] > 0)) {
-    return "`y = " + componentes[0] + "x^2 + " + componentes[1] + "x + " + componentes[2]  + "`";
+    result = "`y = " + componentes[0] + "x^2 + " + componentes[1] + "x + " + componentes[2]  + "`";
   } 
   if ((componentes[1] < 0) && (componentes[2] < 0)) {
-    return "`y = " + componentes[0] + "x^2 " + componentes[1] + "x " + componentes[2]  + "`";
+    result = "`y = " + componentes[0] + "x^2 " + componentes[1] + "x " + componentes[2]  + "`";
   }
   if ((componentes[1] > 0) && (componentes[2] < 0)) {
-    return "`y = " + componentes[0] + "x^2 + " + componentes[1] + "x " + componentes[2]  + "`";
+    result = "`y = " + componentes[0] + "x^2 + " + componentes[1] + "x " + componentes[2]  + "`";
   }
   if ((componentes[1] < 0) && (componentes[2] > 0)) {
-    return "`y = " + componentes[0] + "x^2 " + componentes[1] + "x + " + componentes[2]  + "`";
+    result = "`y = " + componentes[0] + "x^2 " + componentes[1] + "x + " + componentes[2]  + "`";
   }
+
+  return result;
 
 }
 
