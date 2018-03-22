@@ -584,12 +584,10 @@ var mostrarModelo = function (estado, id) {
 
   if(estado) {
     etiquetaCorrespondiente.style.display = 'none';
-    etiquetaCorrespondiente.className = 'nav-link';
     return false;
   }
   else {
     etiquetaCorrespondiente.style.display = '';
-    etiquetaCorrespondiente.className = 'nav-link active';
     return true;
   }
 }
@@ -781,6 +779,10 @@ var aproximarLineal = function() {
     var ecuacion = "(" + aRecta + " * x) + " + bRecta;
     graficoRecta = graficarModelo(ecuacion, graficoRecta, 'black');
     estadoRecta = mostrarModelo(estadoRecta, 'divTablaRecta');
+    if(!estadoRecta)
+      document.getElementById("botonAproximarLineal").className = 'nav-link';
+    else
+      document.getElementById("botonAproximarLineal").className = 'nav-link active';
 }
 
 var aproximarCuadratico = function() {
@@ -788,6 +790,10 @@ var aproximarCuadratico = function() {
     var ecuacion = "(" + aParabola + " * x^2) + (" + bParabola + " * x) + " + cParabola;
     graficoParabola = graficarModelo(ecuacion, graficoParabola, 'green');
     estadoParabola = mostrarModelo(estadoParabola, 'divTablaParabola');
+    if(!estadoParabola)
+      document.getElementById("botonAproximarCuadrado").className = 'nav-link';
+    else
+      document.getElementById("botonAproximarCuadrado").className = 'nav-link active';
 }
 
 var aproximarExponencial = function() {
@@ -795,6 +801,10 @@ var aproximarExponencial = function() {
     var ecuacion = bExponencial  + " * " + Math.E + "^(" + aExponencial + " * x)";
     graficoExponencial = graficarModelo(ecuacion, graficoExponencial, 'blue');
     estadoExponencial = mostrarModelo(estadoExponencial, 'divTablaExponencial');
+    if(!estadoExponencial)
+      document.getElementById("botonAproximarExponencial").className = 'nav-link';
+    else
+      document.getElementById("botonAproximarExponencial").className = 'nav-link active';
 }
 
 var aproximarPotencial = function() {
@@ -802,6 +812,10 @@ var aproximarPotencial = function() {
     var ecuacion = bPotencial  + " * x^(" + aPotencial + ")";
     graficoPotencial = graficarModelo(ecuacion, graficoPotencial, 'purple');
     estadoPotencial = mostrarModelo(estadoPotencial, 'divTablaPotencial');
+    if(!estadoPotencial)
+      document.getElementById("botonAproximarPotencial").className = 'nav-link';
+    else
+      document.getElementById("botonAproximarPotencial").className = 'nav-link active';
 }
 
 var aproximarHiperbola = function() {
@@ -809,6 +823,10 @@ var aproximarHiperbola = function() {
     var ecuacion = aHiperbola + "/" + "(" + bHiperbola +" + x)";
     graficoHiperbola = graficarModelo(ecuacion, graficoHiperbola, 'gray');
     estadoHiperbola = mostrarModelo(estadoHiperbola, 'divTablaHiperbola');
+    if(!estadoHiperbola)
+      document.getElementById("botonAproximarHiperbola").className = 'nav-link';
+    else
+      document.getElementById("botonAproximarHiperbola").className = 'nav-link active';
 }
 
 /////////////
