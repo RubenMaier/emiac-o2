@@ -581,35 +581,15 @@ var graficarModelo = function(ecuacion, curva, color) {
 var mostrarModelo = function (estado, id) {
 
   etiquetaCorrespondiente = document.getElementById(id);
-  if (id === 'divTablaRecta') {
-    separador1.style.display = '';
-  }
-  if (id === 'divTablaParabola') {
-    separador2.style.display = '';
-  }
-  if (id === 'divTablaExponencial') {
-    separador3.style.display = '';
-  }
-  if (id === 'divTablaPotencial') {
-    separador4.style.display = '';
-  }
-  if (id === 'divTablaHiperbola') {
-    separador5.style.display = '';
-    separador6.style.display = '';
-  }
 
   if(estado) {
     etiquetaCorrespondiente.style.display = 'none';
-    separador1.style.display = 'none';
-    separador2.style.display = 'none';
-    separador3.style.display = 'none';
-    separador4.style.display = 'none';
-    separador5.style.display = 'none';
-    separador6.style.display = 'none';
+    etiquetaCorrespondiente.className = 'nav-link';
     return false;
   }
   else {
     etiquetaCorrespondiente.style.display = '';
+    etiquetaCorrespondiente.className = 'nav-link active';
     return true;
   }
 }
@@ -874,13 +854,6 @@ window.addEventListener("load", function() {
   inputPrecision = document.getElementById('precision');
 
   inputDecimales = document.getElementById('decimales');
-
-  separador1 = document.getElementById('separador1');
-  separador2 = document.getElementById('separador2');
-  separador3 = document.getElementById('separador3');
-  separador4 = document.getElementById('separador4');
-  separador5 = document.getElementById('separador5');
-  separador6 = document.getElementById('separador6');
 
 	document.getElementById('botonAproximarLineal').addEventListener('click', aproximarLineal);
 	document.getElementById('botonAproximarCuadrado').addEventListener('click', aproximarCuadratico);

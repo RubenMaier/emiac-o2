@@ -18,17 +18,22 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <style>
       #jxgbox_licenseText { display: none; }
+      body {
+        padding-top: 4.5rem;
+        padding-bottom: 4.5rem;
+      }
     </style>
   </head>
 
   <body>
 
+    <!-- navegacion -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">eAMIC-O™</a>
+      <a class="navbar-brand" href="#">EMIAC-O™</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsEamico" aria-controls="navbarsEamico" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse">
+      <div class="collapse navbar-collapse" id="navbarsEamico">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <a class="nav-link" href="#" id="botonAproximarLineal">Recta</a>
@@ -49,59 +54,77 @@
       </div>
     </nav>
 
+    <!-- 1 contenido principal -->
     <main role="main">
-      <br>
-      <div class="container my-5">
+      <div class="container">
 
+        <!-- 1.1 botones -->
         <div class="row">
           <div class="col-sm">
             <h3>Ingreso datos</h3>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm">
             <form class="form-inline">
-            <div class="form-row align-items-center">
-              <div class="col-auto">
-                <label class="sr-only" for="inlinePuntoX">Punto X</label>
-                <label class="sr-only" for="inlinePuntoY">Punto Y</label>
-                <div class="input-group">
-                  <div class="input-group-addon" id='cositoX'>X</div>
-                  <input type="number" name="x" class="form-control" id="inlinePuntoX">
-                  <div class="input-group-addon" id='cositoY'>Y</div>
-                  <input type="number" name="y" class="form-control" id="inlinePuntoY">
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary" type="button" id="agregarPunto">+</button>
-                  </div>
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary" type="button" id="quitarPunto">-</button>
-                  </div>
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary" type="button" id="procesarDatos">Procesar</button>
-                  </div>
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary" type="button" id="reiniciarSistema" style='display:none'>Reiniciar</button>
+              <div class="form-row align-items-center">
+
+                <div class="col-auto">
+                  <label class="sr-only" for="inlinePuntoX">Punto X</label>
+                  <div class="input-group">
+                    <div class="input-group-addon" id='cositoX'>X</div>
+                    <input type="number" name="x" class="form-control" id="inlinePuntoX">
                   </div>
                 </div>
-              </div>
-              <div class="col-auto">
-                <label class="sr-only" for="inlineDecimales">Decimales</label>
-                <div id="decimales" class="input-group">
-                  <div class="input-group-addon">Decimales</div>
-                  <input type="number" name="y" class="form-control" id="precision" value="5">
+
+                <div class="col-auto">
+                  <label class="sr-only" for="inlinePuntoY">Punto Y</label>
+                  <div class="input-group">
+                    <div class="input-group-addon" id='cositoY'>Y</div>
+                    <input type="number" name="y" class="form-control" id="inlinePuntoY">
+                  </div>
                 </div>
+
+                <div class="col-auto">
+                  <div class="input-group">
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary" type="button" style="display:none;"></button>
+                    </div>
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary" type="button" id="agregarPunto">+</button>
+                    </div>
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary" type="button" id="quitarPunto">-</button>
+                    </div>
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary" type="button" id="procesarDatos">Procesar</button>
+                    </div>
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary" type="button" id="reiniciarSistema" style='display:none'>Reiniciar</button>
+                    </div>
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary" type="button" style="display:none;"></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-auto">
+                  <label class="sr-only" for="inlineDecimales">Decimales</label>
+                  <div id="decimales" class="input-group">
+                    <div class="input-group-addon">Decimales</div>
+                    <input type="number" name="y" class="form-control" id="precision" value="5">
+                  </div>
+                </div>
+
               </div>
-            </div>
           </form>
           </div>
         </div>
 
+        <!-- 1.2 tablas de puntos discretos y grafica -->
+        <hr style="border-color: #007bff; border-width: unset;">
         <div class="row my-4">
+          
           <div class="col-sm-4">
             <h3>Tabla de puntos discretos</h3>
             <div class="table-responsive" style="max-height: 500px">
-              <table class="table table-striped table-bordered" id="tablaDiscreta">
+              <table class="table table-sm table-striped table-bordered" id="tablaDiscreta">
                 <thead class="thead-light">
                   <th>`x`</th>
                   <th>`y`</th>
@@ -113,6 +136,7 @@
               </table>
             </div>
           </div>
+
           <div class="col-sm-8">
             <h3>Gráfica</h3>
             <div class="embed-responsive">
@@ -120,131 +144,161 @@
             </div>
             <div id="resultado"></div>
           </div>
+
         </div>
-        <hr id=separador1 style="border-color: #007bff; border-width: unset; display:none;">
-        <div class="row" style="display:none;" id="divTablaRecta"> 
-          <div class="col">
-            <h3>Aproximación por recta</h3>
-            <div class="table-responsive" style="max-height: 250px">
-              <table class="table table-striped table-bordered" id="tablaRecta">
-                <thead class="thead-light">
-                  <th>`n`</th>
-                  <th>`x`</th>
-                  <th>`y`</th>
-                  <th>`x^2`</th>
-                  <th>`xy`</th>
-                  <th>`bar y`</th>
-                  <th>`(bar y-y)^2`</th>
-                </thead>
-                <tbody>
-                  <tr id="filaTablaRecta">
-                  </tr>
-                </tbody>
-              </table>
+
+        <!-- 1.3 tabla por rectas -->
+        <div id="divTablaRecta" style="display:none;">
+          <hr style="border-color: #007bff; border-width: unset;">
+          <div class="row"> 
+            <div class="col">
+
+              <h3>Aproximación por recta</h3>
+
+              <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered" id="tablaRecta">
+                  <thead class="thead-light">
+                    <th>`n`</th>
+                    <th>`x`</th>
+                    <th>`y`</th>
+                    <th>`x^2`</th>
+                    <th>`xy`</th>
+                    <th>`bar y`</th>
+                    <th>`(bar y-y)^2`</th>
+                  </thead>
+                  <tbody>
+                    <tr id="filaTablaRecta">
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+        
+              <h2 class="my-2">Sistema de ecuaciones</h2>
+              <div id="sistemaRecta"></div>
+              <h2 class="my-2">Función</h2>
+              <div id="funcionRecta"></div>
             </div>
-			
-            <h2 class="my-2">Sistema de ecuaciones</h2>
-            <div id="sistemaRecta"></div>
-            <h2 class="my-2">Función</h2>
-            <div id="funcionRecta"></div>
           </div>
         </div>
-        <hr id=separador2 style="border-color: #007bff; border-width: unset; display:none;">
-        <div class="row" style="display:none;" id="divTablaParabola"> 
-          <div class="col">
-            <h3>Aproximación por parábola</h3>
-            <div class="table-responsive" style="max-height: 250px">
-              <table class="table table-striped table-bordered" id="tablaParabola">
-                <thead class="thead-light">
-                  <th>`n`</th>
-                  <th>`x`</th>
-                  <th>`y`</th>
-                  <th>`x^2`</th>
-                  <th>`x^3`</th>
-                  <th>`x^4`</th>
-                  <th>`xy`</th>
-                  <th>`yx^2`</th>
-                  <th>`bar y`</th>
-                  <th>`(bar y-y)^2`</th>
-                </thead>
-                <tbody>
-                  <tr id="filaTablaParabola">
-                  </tr>
-                </tbody>
-              </table>
+
+        <!-- 1.4 tabla por parabolas -->
+        <div id="divTablaParabola" style="display:none;">
+          <hr style="border-color: #007bff; border-width: unset;">
+          <div class="row"> 
+            <div class="col">
+
+              <h3>Aproximación por parábola</h3>
+
+              <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered" id="tablaParabola">
+                  <thead class="thead-light">
+                    <th>`n`</th>
+                    <th>`x`</th>
+                    <th>`y`</th>
+                    <th>`x^2`</th>
+                    <th>`x^3`</th>
+                    <th>`x^4`</th>
+                    <th>`xy`</th>
+                    <th>`yx^2`</th>
+                    <th>`bar y`</th>
+                    <th>`(bar y-y)^2`</th>
+                  </thead>
+                  <tbody>
+                    <tr id="filaTablaParabola">
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+        
+              <h2 class="my-2">Sistema de ecuaciones</h2>
+              <div id="sistemaParabola"></div>
+              <h2 class="my-2">Función</h2>
+              <div id="funcionParabola"></div>
             </div>
-			
-            <h2 class="my-2">Sistema de ecuaciones</h2>
-            <div id="sistemaParabola"></div>
-            <h2 class="my-2">Función</h2>
-            <div id="funcionParabola"></div>
           </div>
         </div>
-        <hr id=separador3 style="border-color: #007bff; border-width: unset; display:none;">
-        <div class="row" style="display:none;" id="divTablaExponencial"> 
-          <div class="col">
-            <h3>Aproximación por exponencial</h3>
-            <div class="table-responsive" style="max-height: 250px">
-              <table class="table table-striped table-bordered" id="tablaExponencial">
-                <thead class="thead-light">
-                  <th>`n`</th>
-                  <th>`x`</th>
-                  <th>`y`</th>
-                  <th>`x^2`</th>
-                  <th>`ln(y)`</th>
-                  <th>`xln(y)`</th>
-                  <th>`bar y`</th>
-                  <th>`(bar y-y)^2`</th>
-                </thead>
-                <tbody>
-                  <tr id="filaTablaExponencial">
-                  </tr>
-                </tbody>
-              </table>
+
+        <!-- 1.5 tabla por exponencial -->
+        <div id="divTablaExponencial" style="display:none;">
+          <hr style="border-color: #007bff; border-width: unset;">
+          <div class="row"> 
+            <div class="col">
+
+              <h3>Aproximación por exponencial</h3>
+
+              <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered" id="tablaExponencial">
+                  <thead class="thead-light">
+                    <th>`n`</th>
+                    <th>`x`</th>
+                    <th>`y`</th>
+                    <th>`x^2`</th>
+                    <th>`ln(y)`</th>
+                    <th>`xln(y)`</th>
+                    <th>`bar y`</th>
+                    <th>`(bar y-y)^2`</th>
+                  </thead>
+                  <tbody>
+                    <tr id="filaTablaExponencial">
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 class="my-2">Sistema de ecuaciones</h2>
+              <div id="sistemaExponencial"></div>
+              <h2 class="my-2">Función</h2>
+              <div id="funcionExponencial"></div>
             </div>
-			
-            <h2 class="my-2">Sistema de ecuaciones</h2>
-            <div id="sistemaExponencial"></div>
-            <h2 class="my-2">Función</h2>
-            <div id="funcionExponencial"></div>
           </div>
         </div>
-        <hr id=separador4 style="border-color: #007bff; border-width: unset; display:none;">
-        <div class="row" style="display:none;" id="divTablaPotencial"> 
-          <div class="col">
-            <h3>Aproximación por potencial</h3>
-            <div class="table-responsive" style="max-height: 250px">
-              <table class="table table-striped table-bordered" id="tablaPotencial">
-                <thead class="thead-light">
-                  <th>`n`</th>
-                  <th>`x`</th>
-                  <th>`y`</th>
-                  <th>`ln(x)`</th>
-                  <th>`ln(x)^2`</th>
-                  <th>`ln(y)`</th>
-                  <th>`ln(x)ln(y)`</th>
-                  <th>`bar y`</th>
-                  <th>`(bar y-y)^2`</th>
-                </thead>
-                <tbody>
-                  <tr id="filaTablaPotencial">
-                  </tr>
-                </tbody>
-              </table>
+
+        <!-- 1.6 tabla por potencial -->
+        <div id="divTablaPotencial" style="display:none;">
+          <hr style="border-color: #007bff; border-width: unset;">
+          <div class="row"> 
+            <div class="col">
+
+              <h3>Aproximación por potencial</h3>
+
+              <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered" id="tablaPotencial">
+                  <thead class="thead-light">
+                    <th>`n`</th>
+                    <th>`x`</th>
+                    <th>`y`</th>
+                    <th>`ln(x)`</th>
+                    <th>`ln(x)^2`</th>
+                    <th>`ln(y)`</th>
+                    <th>`ln(x)ln(y)`</th>
+                    <th>`bar y`</th>
+                    <th>`(bar y-y)^2`</th>
+                  </thead>
+                  <tbody>
+                    <tr id="filaTablaPotencial">
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 class="my-2">Sistema de ecuaciones</h2>
+              <div id="sistemaPotencial"></div>
+              <h2 class="my-2">Función</h2>
+              <div id="funcionPotencial"></div>
             </div>
-			
-            <h2 class="my-2">Sistema de ecuaciones</h2>
-            <div id="sistemaPotencial"></div>
-            <h2 class="my-2">Función</h2>
-            <div id="funcionPotencial"></div>
           </div>
         </div>
-        <hr id=separador5 style="border-color: #007bff; border-width: unset; display:none;">
-        <div class="row" style="display:none;" id="divTablaHiperbola"> 
+        
+        <!-- 1.7 tabla por hiperbola -->
+      <div id="divTablaHiperbola" style="display:none;">
+        <hr style="border-color: #007bff; border-width: unset;">
+        <div class="row"> 
           <div class="col">
+
             <h3>Aproximación por hipérbola</h3>
-            <div class="table-responsive" style="max-height: 250px">
-              <table class="table table-striped table-bordered" id="tablaHiperbola">
+
+            <div class="table-responsive">
+              <table class="table table-sm table-striped table-bordered" id="tablaHiperbola">
                 <thead class="thead-light">
                   <th>`n`</th>
                   <th>`x`</th>
@@ -261,14 +315,15 @@
                 </tbody>
               </table>
             </div>
-			
+
             <h2 class="my-2">Sistema de ecuaciones</h2>
             <div id="sistemaHiperbola"></div>
             <h2 class="my-2">Función</h2>
             <div id="funcionHiperbola"></div>
           </div>
         </div>
-        <hr id=separador6 style="border-color: #007bff; border-width: unset; display:none;">
+      </div>
+
       </div>
     </main>
 
